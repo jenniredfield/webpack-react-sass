@@ -1,11 +1,11 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
-const isDevelopment = process.env.NODE_ENV === 'development';
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
-
-function getWebpackConfiguration() {
+function getWebpackConfig() {
   return {
     entry: './index.js',
     output: {
@@ -33,9 +33,16 @@ function getWebpackConfiguration() {
             },
           ],
         },
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: [
+            'file-loader',
+          ],
+        },
       ],
     },
     plugins: [
+      new CleanWebpackPlugin(),
       new HtmlWebPackPlugin({
         template: './src/index.html',
         filename: './index.html',
@@ -46,9 +53,9 @@ function getWebpackConfiguration() {
       }),
     ],
     resolve: {
-      extensions: ['.js', '.jsx', '.scss'],
+      extensions: ['.js', '.jsx', '.scss', 'jpg'],
     },
   };
 }
 
-module.exports = getWebpackConfiguration();
+module.exports = getWebpackConfig();
