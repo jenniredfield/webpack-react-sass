@@ -7,10 +7,11 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 
 function getWebpackConfig() {
   return {
-    entry: './index.js',
+    entry: './src/index.js',
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'main.bundle.js',
+      publicPath: '/dist/',
     },
     module: {
       rules: [
@@ -23,7 +24,9 @@ function getWebpackConfig() {
         },
         {
           test: /\.(css|scss)$/,
-          use: [isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          use: [isDevelopment ? 'style-loader' : {
+            loader: MiniCssExtractPlugin.loader,
+          }, 'css-loader', 'sass-loader'],
         },
         {
           test: /\.html$/,
@@ -34,9 +37,9 @@ function getWebpackConfig() {
           ],
         },
         {
-          test: /\.(png|svg|jpg|gif)$/,
+          test: /\.(png|svg|jpg|jpeg|gif)$/,
           use: [
-            'file-loader',
+            'file-loader?name=images/[name].[ext]',
           ],
         },
       ],
@@ -48,12 +51,12 @@ function getWebpackConfig() {
         filename: './index.html',
       }),
       new MiniCssExtractPlugin({
-        filename: isDevelopment ? '[name].css' : '[name].[hash].css',
-        chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css',
+        filename: isDevelopment ? '[name].css' : 'css/[name].[hash].css',
+        chunkFilename: isDevelopment ? '[id].css' : 'css/[id].[hash].css',
       }),
     ],
     resolve: {
-      extensions: ['.js', '.jsx', '.scss', 'jpg'],
+      extensions: ['.js', '.jsx', '.scss', 'jpg', 'css'],
     },
   };
 }
