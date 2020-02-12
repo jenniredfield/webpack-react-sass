@@ -3,5 +3,15 @@
     "globals": {
         "document":  "readonly"
     },
-    "rules": { "react/jsx-filename-extension": [0] }
+    "rules": { 
+        "react/jsx-filename-extension": [0] ,
+        "import/no-unresolved": [0, {
+           "png": "never",
+           "jpg": "never"
+          }],
+        "import/extensions": [0, {
+        "png": "never",
+        "jpg": "never"
+        }]
+    },
 }

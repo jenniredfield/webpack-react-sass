@@ -11,7 +11,7 @@ function getWebpackConfig() {
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'main.bundle.js',
-      publicPath: '/dist/',
+      publicPath: isDevelopment ? '' : '/dist/',
     },
     module: {
       rules: [
@@ -42,6 +42,12 @@ function getWebpackConfig() {
             'file-loader?name=images/[name].[ext]',
           ],
         },
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/,
+          use: [
+            'file-loader?name=fonts/[name].[ext]',
+          ],
+        },
       ],
     },
     plugins: [
@@ -56,7 +62,7 @@ function getWebpackConfig() {
       }),
     ],
     resolve: {
-      extensions: ['.js', '.jsx', '.scss', 'jpg', 'css'],
+      extensions: ['.scss', '.jpg', '.png', '.js', '.jsx'],
     },
   };
 }
